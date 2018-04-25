@@ -13,6 +13,19 @@
 #include <vector>
 #include <string>
 
+/* Function Declaration(s) */
+// Solves the board using backtracking and recursion/
+bool solve( int b[9][9] ); 
+
+// Prints the Sudoku board if it is solved.
+void printBoard( int b[9][9] );
+
+// Finds the next open space on the Sudoku board.
+bool findBox( int b[9][9], int &r, int &c );
+
+// Determines if the spot is valid.
+bool isValidSpace( int b[9][9], int r, int c, int v);
+
 /* Main Function */
 int main(int argc, char *argv[]) {
 
@@ -21,29 +34,29 @@ int main(int argc, char *argv[]) {
 
     /* Creates a board */
     int board[9][9] = {{ 0, 3, 0, 0, 0, 0, 0, 2, 0 },
-	{ 0, 9, 0, 0, 0, 0, 0, 8, 5 },
-	{ 5, 0, 0, 0, 8, 0, 4, 0, 0 },
-	{ 4, 0, 7, 2, 0, 6, 8, 9, 0 },
-	{ 0, 1, 0, 8, 0, 9, 0, 4, 0 },
-	{ 0, 8, 9, 5, 0, 1, 3, 0, 2 },
-	{ 0, 0, 3, 0, 1, 0, 0, 0, 9 },
-	{ 9, 4, 0, 0, 0, 0, 0, 1, 0 },
-	{ 0, 7, 0, 0, 0, 0, 0, 3, 0 }};
+		       { 0, 9, 0, 0, 0, 0, 0, 8, 5 },
+		       { 5, 0, 0, 0, 8, 0, 4, 0, 0 },
+		       { 4, 0, 7, 2, 0, 6, 8, 9, 0 },
+		       { 0, 1, 0, 8, 0, 9, 0, 4, 0 },
+		       { 0, 8, 9, 5, 0, 1, 3, 0, 2 },
+		       { 0, 0, 3, 0, 1, 0, 0, 0, 9 },
+		       { 9, 4, 0, 0, 0, 0, 0, 1, 0 },
+		       { 0, 7, 0, 0, 0, 0, 0, 3, 0 }};
 
     /* Checks if the board was solved. */
-    isSolved = solve(board,0,0);
+    isSolved = solve( board );
 
     /* Prints out to the user the status of the board. */
     if(isSolved){
 	std::cout << "Found a solution:\n" << std::endl;
-	printBoard(board);
+	printBoard( board );
     }
     else {
 	std::cout << "No solution found." << std::endl;
     }
 
     /* End of program reached */
-    std::cout << "\n\n\n" << std::ebdl;
+    std::cout << "\n\n\n" << std::endl;
     return 0;
 }
 
@@ -66,7 +79,7 @@ bool solve( int board[9][9] ) {
     int value;
 
     /* Checks if there are any unassinged locations first */
-    if( !findBox )
+    if( !findBox( board, row, col ) )
 	return true;
 
     /* Begins trying to place items onto the Sudoku board */
@@ -89,6 +102,9 @@ bool solve( int board[9][9] ) {
 	} 
 
     }
+
+    // If it reaches here, backtracking will occure.
+    return false;
 
 }
 
@@ -162,14 +178,12 @@ bool isValidSpace( int board[9][9], int row, int col, int value ) {
 bool findBox(int board[9][9], int &row, int &col) {
 
     // Loops until it finds the first open space.
-    for( int i = 0; i < 9; i++)
-	for( int j = 0; j < 9; j++)
-	     if( board[i][j] == 0 ) {
-		row = i;
-		col = j;
-		return false;
-	    }
-    return true;
+    for( row = 0; row < 9; row++)
+	for( col = 0; col < 9; col++)
+	     if( board[row][col] == 0 )
+		return true;
+
+    return false;
 
 }
 
